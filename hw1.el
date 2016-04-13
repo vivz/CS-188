@@ -11,11 +11,16 @@
       (num (* num m)))
   num))
 
-(defun same-digit (NUM1 NUM2 nlevel shift)
-  (let (
+(defun same-digit (NUM1 NUM2 &optional nlevel shift)
+  (unless nlevel (setq nlevel 1))
+  (unless shift (setq shift 1)) 
+  (let* (
     (ndigit (length (number-to-string NUM1)))
+    (shift (if(and (= ndigit 2) (= shift 1)) 0 shift)) ;special case for two digit
     (shifted_nlevel (+ shift nlevel)))
   (cond
+    ((> NUM1 NUM2) nil)
+    ((= NUM1 NUM2) (list (list NUM1 NUM1)))
     ((= 0 nlevel)  ;base case
       (list (list NUM1 NUM2))
     )
@@ -26,14 +31,12 @@
 	 (leading (if (or (= shift 1) (= shift 0))
 		       (non-nine NUM1 nlevel) ;shift is 1 or 0
 		       (- (non-nine NUM2 nlevel) (power 10 nlevel)) ;shift is -1
-		   )
-	 )
-         (upper (+ nines leading))
-	 (new_shift (cond ((or (= -1 shift)(= 0 shift)) -1)
+	 ))
+         (upper (+ nines leading)) ;compute upper limit
+	 (new_shift (cond ((or (= -1 shift)(= 0 shift)) -1) ; calcualting the shift for next level
 			  ((= ndigit (+ 1 shifted_nlevel)) 0)
 			  (t 1)
-		    )
-	 )
+	 ))
         ) 
 	;recursive call
         (cons (list NUM1 upper) (same-digit (+ 1 upper) NUM2 shifted_nlevel new_shift) )
@@ -41,14 +44,13 @@
     )
   ))
 )
-(same-digit 1323 2856 1 1)
 
+(defun different-digit (NUM1 NUM2))
 
 
 (defun find-range (NUM1 NUM2 nlevel)
 
 )
-
 
 
 (defun num-search-forward (NUM1 &optional NUM2 BASE))
