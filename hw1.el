@@ -45,7 +45,21 @@
   ))
 )
 
-(defun different-digit (NUM1 NUM2))
+(defun positive-range-finder (NUM1 NUM2)
+ (let* (
+	(ndigit1 (length (number-to-string NUM1)))
+	(ndigit2 (length (number-to-string NUM2)))
+       )
+  (cond
+   ((> NUM1 NUM2) nil)
+   ((= NUM1 NUM2) (list (list NUM1 NUM1)))
+   ((= ndigit1 ndigit2) (same-digit NUM1 NUM2))
+   (t ;digit are not the same
+    
+   )
+  );end of cond
+ );end of let*
+)
 
 
 (defun find-range (NUM1 NUM2 nlevel)
