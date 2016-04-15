@@ -9,7 +9,7 @@
       (m (power 10 num_of_zeros))
       (num (/ num m))
       (num (* num m)))
-  num))
+  num))(non-nine 456 1)
 
 (defun same-digit (NUM1 NUM2 &optional nlevel shift)
   (unless nlevel (setq nlevel 1))
@@ -32,7 +32,8 @@
 		       (non-nine NUM1 nlevel) ;shift is 1 or 0
 		       (- (non-nine NUM2 nlevel) (power 10 nlevel)) ;shift is -1
 	 ))
-         (upper (+ nines leading)) ;compute upper limit
+         (test_upper (+ nines leading));compute upper limit
+	 (upper (if(< test_upper NUM2) test_upper NUM2))
 	 (new_shift (cond ((or (= -1 shift)(= 0 shift)) -1) ; calcualting the shift for next level
 			  ((= ndigit (+ 1 shifted_nlevel)) 0)
 			  (t 1)
@@ -43,28 +44,7 @@
       )
     )
   ))
-)
-
-(defun positive-range-finder (NUM1 NUM2)
- (let* (
-	(ndigit1 (length (number-to-string NUM1)))
-	(ndigit2 (length (number-to-string NUM2)))
-       )
-  (cond
-   ((> NUM1 NUM2) nil)
-   ((= NUM1 NUM2) (list (list NUM1 NUM1)))
-   ((= ndigit1 ndigit2) (same-digit NUM1 NUM2))
-   (t ;digit are not the same
-    
-   )
-  );end of cond
- );end of let*
-)
-
-
-(defun find-range (NUM1 NUM2 nlevel)
-
-)
+)(same-digit 300 324)
 
 
 (defun num-search-forward (NUM1 &optional NUM2 BASE))
